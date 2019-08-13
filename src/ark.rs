@@ -9,6 +9,7 @@ use regex::Regex;
 use rercon::ReConnection;
 use serenity::model::id::ChannelId;
 use serenity::CacheAndHttp;
+use rercon::Error::BusyReconnecting;
 
 pub(crate) fn start_loop(
     rcon: Arc<Mutex<ReConnection>>,
@@ -24,21 +25,20 @@ pub(crate) fn start_loop(
 fn ark_loop(rcon: Arc<Mutex<ReConnection>>, discord: Arc<CacheAndHttp>, channel: ChannelId) {
     loop {
         {
-            println!("Acquiring lock");
             let mut lock = rcon.lock().unwrap();
-            println!("Acquired lock");
             let log = match lock.exec("GetGameLog") {
                 Err(e) => {
                     println!("RCON: Could not get game log: {}", e.to_string());
+                    if let BusyReconnecting(_) = e {
+                        thread::sleep(Duration::from_secs(1));
+                    }
                     continue;
                 }
                 Ok(l) => l,
             };
 
-            println!("Received answer: {}", log);
             log.lines().for_each(|l| handle_line(&discord, &channel, l))
         }
-        println!("Lock released");
 
         thread::sleep(Duration::from_millis(250))
     }

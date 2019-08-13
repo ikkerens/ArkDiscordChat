@@ -4,7 +4,7 @@ extern crate rercon;
 extern crate lazy_static;
 extern crate serenity;
 
-use std::env;
+use std::{env, thread};
 use std::sync::{Arc, Mutex};
 use std::time::Duration;
 
@@ -49,6 +49,11 @@ fn main() -> Result<(), StartError> {
     }
 
     ark::start_loop(rcon, discord.cache_and_http.clone(), channel)?;
+
+    thread::spawn(|| {
+        thread::sleep(Duration::from_secs(1));
+        println!("Discord: Connected & waiting for events!");
+    });
 
     if let Err(e) = discord.start_autosharded() {
         return Err(StartError::from(e));

@@ -31,10 +31,7 @@ impl EventHandler for Handler {
         let content = message.content_safe(ctx.cache);
         println!("Bridge: D->A ({}): {}", nick, content);
 
-        let mut rcon = match rcon.lock() {
-            Err(_) => panic!(),
-            Ok(v) => v,
-        };
+        let mut rcon = rcon.lock().unwrap();
         if let Err(e) = rcon.exec(format!("ServerChat (D) {}: {}", nick, content).as_str()) {
             println!("RCON: Could not send message: {}", e.to_string());
         }
