@@ -14,8 +14,8 @@ dependencies = [
 ]
 
 [[package]]
-name = "ark_discord_chat"
-version = "0.1.0"
+name = "arkdiscordchat"
+version = "1.1.0"
 dependencies = [
  "envmnt 0.6.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "lazy_static 1.3.0 (registry+https://github.com/rust-lang/crates.io-index)",

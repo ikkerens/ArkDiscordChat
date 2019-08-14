@@ -11,6 +11,7 @@ use std::{{env, thread},
 use rercon::ReConnection;
 use serenity::{Client,
                model::id::ChannelId};
+use serenity::framework::StandardFramework;
 
 use start_error::StartError;
 
@@ -20,6 +21,7 @@ mod ark;
 mod discord;
 mod start_error;
 mod type_container;
+mod rcon_command;
 
 fn main() -> Result<(), StartError> {
     if !envmnt::is_all_exists(&vec![
@@ -44,6 +46,10 @@ fn main() -> Result<(), StartError> {
 
     println!("Discord: Setting up...");
     let mut discord = Client::new(env::var("DISCORD_TOKEN")?, discord::Handler)?;
+    discord.with_framework(StandardFramework::new().configure(|c|
+        c.prefix("!")
+            .allow_dm(false)
+    ).group(&rcon_command::GENERAL_GROUP));
     {
         let mut data = discord.data.write();
         data.insert::<RconContainer>(rcon.clone());

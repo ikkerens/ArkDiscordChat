@@ -1,6 +1,6 @@
 [package]
-name = "ark_discord_chat"
-version = "0.1.0"
+name = "arkdiscordchat"
+version = "1.1.0"
 authors = ["Rens Rikkerink <contact@ikkerens.com>"]
 edition = "2018"
 
