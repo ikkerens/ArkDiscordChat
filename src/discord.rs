@@ -1,10 +1,10 @@
-use serenity::client::Context;
-use serenity::model::channel::Message;
-use serenity::prelude::EventHandler;
+use serenity::{client::Context,
+               model::channel::Message,
+               prelude::EventHandler};
 
 use crate::{ChannelIdContainer, RconContainer};
 
-pub struct Handler;
+pub(crate) struct Handler;
 
 impl EventHandler for Handler {
     fn message(&self, ctx: Context, message: Message) {

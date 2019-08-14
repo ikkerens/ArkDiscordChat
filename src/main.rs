@@ -1,23 +1,25 @@
 extern crate envmnt;
-extern crate rercon;
 #[macro_use]
 extern crate lazy_static;
+extern crate rercon;
 extern crate serenity;
 
-use std::{env, thread};
-use std::sync::{Arc, Mutex};
-use std::time::Duration;
-
-use serenity::model::id::ChannelId;
-use serenity::prelude::TypeMapKey;
-use serenity::Client;
+use std::{{env, thread},
+          sync::{Arc, Mutex},
+          time::Duration};
 
 use rercon::ReConnection;
+use serenity::{Client,
+               model::id::ChannelId};
+
 use start_error::StartError;
+
+use crate::type_container::{ChannelIdContainer, RconContainer};
 
 mod ark;
 mod discord;
 mod start_error;
+mod type_container;
 
 fn main() -> Result<(), StartError> {
     if !envmnt::is_all_exists(&vec![
@@ -60,16 +62,4 @@ fn main() -> Result<(), StartError> {
     }
 
     Ok(())
-}
-
-struct RconContainer;
-
-impl TypeMapKey for RconContainer {
-    type Value = Arc<Mutex<ReConnection>>;
-}
-
-struct ChannelIdContainer;
-
-impl TypeMapKey for ChannelIdContainer {
-    type Value = ChannelId;
 }

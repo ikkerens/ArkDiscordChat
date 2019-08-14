@@ -1,15 +1,15 @@
 extern crate regex;
 
-use std::io::Result;
-use std::sync::{Arc, Mutex};
-use std::thread;
-use std::time::Duration;
+use std::{io::Result,
+          sync::{Arc, Mutex},
+          thread,
+          time::Duration};
 
 use regex::Regex;
-use rercon::ReConnection;
-use serenity::model::id::ChannelId;
-use serenity::CacheAndHttp;
-use rercon::Error::BusyReconnecting;
+use rercon::{Error::BusyReconnecting,
+             ReConnection};
+use serenity::{CacheAndHttp,
+               model::id::ChannelId};
 
 pub(crate) fn start_loop(
     rcon: Arc<Mutex<ReConnection>>,
@@ -25,8 +25,12 @@ pub(crate) fn start_loop(
 fn ark_loop(rcon: Arc<Mutex<ReConnection>>, discord: Arc<CacheAndHttp>, channel: ChannelId) {
     loop {
         {
-            let mut lock = rcon.lock().unwrap();
-            let log = match lock.exec("GetGameLog") {
+            let response = {
+                let mut lock = rcon.lock().unwrap();
+                lock.exec("GetGameLog")
+            };
+
+            let log = match response {
                 Err(e) => {
                     println!("RCON: Could not get game log: {}", e.to_string());
                     if let BusyReconnecting(_) = e {

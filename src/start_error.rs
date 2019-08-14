@@ -1,7 +1,7 @@
-use std::env::VarError;
-use std::fmt::{Debug, Error, Formatter};
-use std::io;
-use std::num::ParseIntError;
+use std::{env::VarError,
+          fmt::{Debug, Error, Formatter},
+          io,
+          num::ParseIntError};
 
 pub(crate) struct StartError {
     msg: String,
