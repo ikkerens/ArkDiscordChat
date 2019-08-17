@@ -5,8 +5,8 @@ authors = ["Rens Rikkerink <contact@ikkerens.com>"]
 edition = "2018"
 
 [dependencies]
-envmnt = "0.6.0"
-rercon = "1.0.0"
-serenity = "0.6.3"
-regex = "1.2.1"
-lazy_static = "1.3.0"
+envmnt = "0.6"
+rercon = "1.0"
+serenity = "0.6"
+regex = "1.2"
+lazy_static = "1.3"
