@@ -3,6 +3,7 @@ use serenity::{client::Context,
                prelude::EventHandler};
 
 use crate::{ChannelIdContainer, RconContainer};
+use serenity::model::gateway::Ready;
 
 pub(crate) struct Handler;
 
@@ -35,5 +36,9 @@ impl EventHandler for Handler {
         if let Err(e) = rcon.exec(format!("ServerChat (D) {}: {}", nick, content).as_str()) {
             println!("RCON: Could not send message: {}", e.to_string());
         }
+    }
+
+    fn ready(&self, _ctx: Context, _ready: Ready) {
+        println!("Discord: Connected & waiting for events!");
     }
 }
