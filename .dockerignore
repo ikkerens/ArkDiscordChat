@@ -1,7 +1,8 @@
 # Rust specific
-/target
+/target/
 /**/*.rs.bk
 
 # IntelliJ specific
 /.idea/
-/soulbot.iml
+/ark_discord_chat.iml
+
