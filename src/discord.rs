@@ -16,7 +16,7 @@ impl EventHandler for Handler {
         let (chat_channel_id, rcon) = {
             let data_container = ctx.data.read();
             (
-                data_container.get::<ChannelIdContainer>().unwrap().clone(),
+                *data_container.get::<ChannelIdContainer>().unwrap(),
                 data_container.get::<RconContainer>().unwrap().clone(),
             )
         };

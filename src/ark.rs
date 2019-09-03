@@ -41,21 +41,19 @@ fn ark_loop(rcon: Arc<Mutex<ReConnection>>, discord: Arc<CacheAndHttp>, channel:
                 Ok(l) => l,
             };
 
-            log.lines().for_each(|l| handle_line(&discord, &channel, l))
+            log.lines().for_each(|l| handle_line(&discord, channel, l))
         }
 
         thread::sleep(Duration::from_millis(250))
     }
 }
 
-fn handle_line(discord: &Arc<CacheAndHttp>, channel: &ChannelId, line: &str) {
+fn handle_line(discord: &Arc<CacheAndHttp>, channel: ChannelId, line: &str) {
     lazy_static! {
         static ref CHAT_MESSAGE_PATTERN: Regex =
             Regex::new("(?:[0-9._]+): (?:[A-z0-9 ]+) \\(([A-z0-9 ]+?)\\): (.*)").unwrap();
         static ref JOIN_MESSAGE_PATTERN: Regex =
             Regex::new("(?:[0-9._]+): ([A-z ]+) (joined|left) this ARK!").unwrap();
-        static ref SERVER_MESSAGE_PATTERN: Regex =
-            Regex::new("(?:[0-9._]+): SERVER: (?:.*)").unwrap();
     }
 
     let mirror_msg = if let Some(groups) = CHAT_MESSAGE_PATTERN.captures(line) {
@@ -72,8 +70,6 @@ fn handle_line(discord: &Arc<CacheAndHttp>, channel: &ChannelId, line: &str) {
         );
         println!("Bridge: A->D: {} {} the ARK!", name, action);
         Some(format!("***{}** {} the ARK!*", name, action))
-    } else if SERVER_MESSAGE_PATTERN.is_match(line) {
-        None
     } else {
         None
     };
