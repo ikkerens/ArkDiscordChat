@@ -14,6 +14,6 @@ jobs:
       with:
         name: docker.pkg.github.com/ikkerens/arkdiscordchat/binary
         username: ${{ secrets.DOCKER_USERNAME }}
-        password: ${{ secrets.DOCKER_TOKEN }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
         registry: docker.pkg.github.com
         snapshot: true
