@@ -12,7 +12,8 @@ jobs:
     - name: Publish to Registry
       uses: elgohr/Publish-Docker-Github-Action@master
       with:
-        name: ikkerens/arkdiscordchat
+        name: docker.pkg.github.com/ikkerens/arkdiscordchat/binary
         username: ${{ secrets.DOCKER_USERNAME }}
-        password: ${{ secrets.DOCKER_PASSWORD }}
+        password: ${{ secrets.DOCKER_TOKEN }}
+        registry: docker.pkg.github.com
         snapshot: true
